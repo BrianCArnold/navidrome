@@ -89,6 +89,9 @@ type configOptions struct {
 	Spotify      spotifyOptions
 	ListenBrainz listenBrainzOptions
 
+
+	LDAP    ldapOptions
+
 	// DevFlags. These are used to enable/disable debugging and incomplete features
 	DevLogSourceLine                 bool
 	DevLogLevels                     map[string]string
@@ -128,6 +131,16 @@ type spotifyOptions struct {
 type listenBrainzOptions struct {
 	Enabled bool
 	BaseURL string
+}
+
+type ldapOptions struct {
+	Host         string
+	BindDN       string
+	BindPassword string
+	Base         string
+	SearchFilter string
+	Mail         string
+	Name         string
 }
 
 type prometheusOptions struct {
@@ -349,6 +362,14 @@ func init() {
 	viper.SetDefault("spotify.secret", "")
 	viper.SetDefault("listenbrainz.enabled", true)
 	viper.SetDefault("listenbrainz.baseurl", "https://api.listenbrainz.org/1/")
+
+	viper.SetDefault("ldap.host", "ldap://localhost:389")
+	viper.SetDefault("ldap.binddn", "")
+	viper.SetDefault("ldap.bindpassword", "")
+	viper.SetDefault("ldap.base", "")
+	viper.SetDefault("ldap.searchfilter", "(&(objectClass=inetOrgPerson)(uid=%s))")
+	viper.SetDefault("ldap.mail", "mail")
+	viper.SetDefault("ldap.name", "uid")
 
 	// DevFlags. These are used to enable/disable debugging and incomplete features
 	viper.SetDefault("devlogsourceline", false)
