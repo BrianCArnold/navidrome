@@ -21,7 +21,6 @@ require (
 	github.com/go-chi/cors v1.2.1
 	github.com/go-chi/httprate v0.7.0
 	github.com/go-chi/jwtauth/v5 v5.0.2
-	github.com/go-ldap/ldap v3.0.3+incompatible
 	github.com/golangci/golangci-lint v1.49.0
 	github.com/google/uuid v1.3.0
 	github.com/google/wire v0.5.0
@@ -46,13 +45,12 @@ require (
 	github.com/unrolled/secure v1.13.0
 	github.com/xrash/smetrics v0.0.0-20200730060457-89a2a8a1fb0b
 	golang.org/x/image v0.0.0-20191009234506-e7c1f5e7dbb8
-	golang.org/x/tools v0.0.0-20200812195022-5ae4c3c160a0
-	google.golang.org/protobuf v1.25.0 // indirect
-	gopkg.in/asn1-ber.v1 v1.0.0-20181015200546-f715ec2f112d // indirect
-	gopkg.in/djherbis/atime.v1 v1.0.0 // indirect
-	gopkg.in/djherbis/stream.v1 v1.3.1 // indirect
-	gopkg.in/ini.v1 v1.57.0 // indirect
+	golang.org/x/tools v0.1.12
+	google.golang.org/protobuf v1.28.1 // indirect
+	gopkg.in/ini.v1 v1.67.0 // indirect
 )
+
+require golang.org/x/text v0.3.7
 
 require (
 	4d63.com/gochecknoglobals v0.1.0 // indirect
@@ -95,6 +93,7 @@ require (
 	github.com/fsnotify/fsnotify v1.5.4 // indirect
 	github.com/fzipp/gocyclo v0.6.0 // indirect
 	github.com/go-critic/go-critic v0.6.4 // indirect
+	github.com/go-ldap/ldap v3.0.3+incompatible // indirect
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/go-task/slim-sprig v0.0.0-20210107165309-348f09dbbbc0 // indirect
 	github.com/go-toolsmith/astcast v1.0.0 // indirect
@@ -236,8 +235,7 @@ require (
 	golang.org/x/net v0.0.0-20220826154423-83b083e8dc8b // indirect
 	golang.org/x/sync v0.0.0-20220722155255-886fb9371eb4 // indirect
 	golang.org/x/sys v0.0.0-20220811171246-fbc7d0a398ab // indirect
-	google.golang.org/protobuf v1.28.1 // indirect
-	gopkg.in/ini.v1 v1.67.0 // indirect
+	gopkg.in/asn1-ber.v1 v1.0.0-20181015200546-f715ec2f112d // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	honnef.co/go/tools v0.3.3 // indirect

@@ -283,7 +283,7 @@ func init() {
 	viper.SetDefault("ldap.base", "")
 	viper.SetDefault("ldap.searchfilter", "(&(objectClass=inetOrgPerson)(uid=%s))")
 	viper.SetDefault("ldap.mail", "mail")
-	viper.SetDefault("ldap.name", "cn")
+	viper.SetDefault("ldap.name", "uid")
 
 	// DevFlags. These are used to enable/disable debugging and incomplete features
 	viper.SetDefault("devlogsourceline", false)

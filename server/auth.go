@@ -16,6 +16,7 @@ import (
 	"github.com/deluan/rest"
 	"github.com/go-chi/jwtauth/v5"
 	"github.com/google/uuid"
+	"github.com/go-ldap/ldap"
 	"github.com/navidrome/navidrome/conf"
 	"github.com/navidrome/navidrome/consts"
 	"github.com/navidrome/navidrome/core/auth"
@@ -159,7 +160,7 @@ func validateLogin(userRepo model.UserRepository, userName, password string) (*m
 	if u != nil && err == nil {
 		return u, nil
 	}
-	u, err := userRepo.FindByUsernameWithPassword(userName)
+	u, err = userRepo.FindByUsernameWithPassword(userName)
 	if errors.Is(err, model.ErrNotFound) {
 		return nil, nil
 	}

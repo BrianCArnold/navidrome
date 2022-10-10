@@ -127,6 +127,7 @@ func validateUser(ctx context.Context, ds model.DataStore, username, pass, token
 			}
 		}
 		valid = pass == user.Password
+		log.Warn("Checking password", "password", pass)
 	case token != "":
 		t := fmt.Sprintf("%x", md5.Sum([]byte(user.Password+salt)))
 		valid = t == token
