@@ -354,7 +354,7 @@ func init() {
 	viper.SetDefault("scanner.genreseparators", ";/,")
 	viper.SetDefault("scanner.groupalbumreleases", false)
 
-	viper.SetDefault("agents", "lastfm,spotify,lrclib")
+	viper.SetDefault("agents", "lastfm,spotify,local,lrclib")
 	viper.SetDefault("lastfm.enabled", true)
 	viper.SetDefault("lastfm.language", "en")
 	viper.SetDefault("lastfm.apikey", "")

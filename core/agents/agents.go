@@ -22,7 +22,18 @@ func New(ds model.DataStore) *Agents {
 	if conf.Server.Agents != "" {
 		order = strings.Split(conf.Server.Agents, ",")
 	}
-	order = append(order, LocalAgentName)
+	hasLocal := false
+	for _, agent := range order {
+		if agent == LocalAgentName {
+			hasLocal = true
+			break
+		}
+	}
+
+	if !hasLocal {
+		order = append(order, LocalAgentName)
+	}
+
 	var res []Interface
 	for _, name := range order {
 		init, ok := Map[name]
