@@ -13,6 +13,7 @@ import (
 	"github.com/deluan/sanitize"
 	"github.com/navidrome/navidrome/conf"
 	"github.com/navidrome/navidrome/core/agents"
+	_ "github.com/navidrome/navidrome/core/agents/filesystem"
 	_ "github.com/navidrome/navidrome/core/agents/lastfm"
 	_ "github.com/navidrome/navidrome/core/agents/listenbrainz"
 	_ "github.com/navidrome/navidrome/core/agents/lrclib"

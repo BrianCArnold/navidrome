@@ -1,8 +1,9 @@
-package agents
+package filesystem
 
 import (
 	"context"
 
+	"github.com/navidrome/navidrome/core/agents"
 	"github.com/navidrome/navidrome/model"
 	"github.com/navidrome/navidrome/tests"
 	. "github.com/navidrome/navidrome/utils/gg"
@@ -13,23 +14,73 @@ import (
 var _ = Describe("localAgent", func() {
 	var ds model.DataStore
 	var ctx context.Context
-	var agent Interface
+	var agent *filesystemAgent
 
 	BeforeEach(func() {
 		ds = &tests.MockDataStore{}
 		ctx = context.Background()
-		agent = localsConstructor(ds)
+		agent = filesystemConstructor(ds)
+	})
+
+	Describe("GetArtistBiography", func() {
+		BeforeEach(func() {
+			ds.Artist(ctx).(*tests.MockArtistRepo).SetData(model.Artists{
+				model.Artist{ID: "ar-1234",
+					Name: "artist"},
+			})
+		})
+
+		It("should fetch artist biography", func() {
+
+			ds.Album(ctx).(*tests.MockAlbumRepo).SetData(model.Albums{
+				model.Album{ID: "al-1234",
+					AlbumArtistID: "ar-1234",
+					Name:          "album",
+					Paths:         "tests/fixtures/artist/an-album",
+				},
+			})
+
+			bio, err := agent.GetArtistBiography(ctx, "ar-1234", "album", "")
+			Expect(err).ToNot(HaveOccurred())
+			Expect(bio).To(Equal("This is an artist biography"))
+		})
+
+		It("should fetch artist biography with slash", func() {
+			ds.Album(ctx).(*tests.MockAlbumRepo).SetData(model.Albums{
+				model.Album{ID: "al-1234",
+					AlbumArtistID: "ar-1234",
+					Name:          "album",
+					Paths:         "tests/fixtures/artist/",
+				},
+			})
+
+			bio, err := agent.GetArtistBiography(ctx, "ar-1234", "album", "")
+			Expect(err).ToNot(HaveOccurred())
+			Expect(bio).To(Equal("This is an artist biography"))
+		})
+
+		It("should error when file doesn't exist", func() {
+			ds.Album(ctx).(*tests.MockAlbumRepo).SetData(model.Albums{
+				model.Album{ID: "al-1234",
+					AlbumArtistID: "ar-1234",
+					Name:          "album",
+					Paths:         "tests/fixtures/fake-artist/fake-album",
+				},
+			})
+
+			bio, err := agent.GetArtistBiography(ctx, "ar-1234", "album", "")
+			Expect(err).To(Equal(agents.ErrNotFound))
+			Expect(bio).To(Equal(""))
+		})
 	})
 
 	Describe("GetSongLyrics", func() {
 		It("should parse LRC file", func() {
-			lyricFetcher, _ := agent.(LyricsRetriever)
-
 			mf := model.MediaFile{
 				Path: "tests/fixtures/01 Invisible (RED) Edit Version.mp3",
 			}
 
-			lyrics, err := lyricFetcher.GetSongLyrics(ctx, &mf)
+			lyrics, err := agent.GetSongLyrics(ctx, &mf)
 			Expect(err).ToNot(HaveOccurred())
 			Expect(lyrics).To(Equal(model.LyricList{
 				{
@@ -48,13 +99,11 @@ var _ = Describe("localAgent", func() {
 		})
 
 		It("should parse both LRC and TXT", func() {
-			lyricFetcher, _ := agent.(LyricsRetriever)
-
 			mf := model.MediaFile{
 				Path: "tests/fixtures/test.wav",
 			}
 
-			lyrics, err := lyricFetcher.GetSongLyrics(ctx, &mf)
+			lyrics, err := agent.GetSongLyrics(ctx, &mf)
 			Expect(err).ToNot(HaveOccurred())
 			Expect(lyrics).To(Equal(model.LyricList{
 				{
